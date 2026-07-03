@@ -147,3 +147,7 @@ El proyecto incluye:
 - Tests unitarios para los casos de uso `GetPet` y `CreatePet`.
 - Tests de integracion para el controller usando `MockMvc`.
 - Repositorio fake en pruebas de integracion para no depender de Swagger Petstore real.
+
+## Evidencias
+
+Si se requiere alguna evidencia de la ejecucion o pruebas del proyecto, se puede consultar la carpeta [evidencias](C:/Users/omarm/Documents/examen-tecnico-stefanini/evidencias).
