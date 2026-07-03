@@ -77,8 +77,9 @@ class PetControllerIntegrationTest {
         }
 
         @Override
-        public Pet save(Pet pet) {
-            pets.put(pet.id(), pet);
+        public Pet save(Long petId, String name, String status) {
+            Pet pet = new Pet(petId, name, status);
+            pets.put(petId, pet);
             return pet;
         }
 

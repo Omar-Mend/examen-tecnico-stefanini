@@ -20,7 +20,7 @@ public class PetStorePetRepository implements PetRepository {
     public Pet findById(Long petId) throws GeneralException {
 
         try {
-            PetStorePetResponse response = petStoreRestClient.get()
+            var response = petStoreRestClient.get()
                     .uri("/pet/{petId}", petId)
                     .retrieve()
                     .body(PetStorePetResponse.class);
@@ -28,20 +28,19 @@ public class PetStorePetRepository implements PetRepository {
             return toDomain(response);
 
         } catch (RestClientResponseException e) {
-            System.out.println("RestClientResponseException: " + e.getMessage());
-            System.out.println("RestClientResponseException status: " + e.getStatusCode().value());
-            throw new GeneralException(e.getStatusCode().value(), resolveMessage(e), e);
+            throw new GeneralException(e.getStatusCode().value(), e);
+
         } catch (Exception e) {
-            throw new GeneralException(500, e.getMessage(), e);
+            throw new GeneralException(500, e);
         }
     }
 
     @Override
-    public Pet save(Pet pet) throws GeneralException {
-        PetStorePetRequest request = new PetStorePetRequest(pet.id(), pet.name(), pet.status());
+    public Pet save(Long petId, String name, String status) throws GeneralException {
+        PetStorePetRequest request = new PetStorePetRequest(petId, name, status);
 
         try {
-            PetStorePetResponse response = petStoreRestClient.post()
+            var response = petStoreRestClient.post()
                     .uri("/pet")
                     .body(request)
                     .retrieve()
@@ -50,9 +49,10 @@ public class PetStorePetRepository implements PetRepository {
             return toDomain(response);
 
         } catch (RestClientResponseException e) {
-            throw new GeneralException(e.getStatusCode().value(), resolveMessage(e), e);
+            throw new GeneralException(e.getStatusCode().value(), e);
+
         } catch (Exception e) {
-            throw new GeneralException(500, e.getMessage(), e);
+            throw new GeneralException(500, e);
         }
 
 
@@ -63,14 +63,6 @@ public class PetStorePetRepository implements PetRepository {
             throw new IllegalStateException("Empty response from Petstore API");
         }
         return new Pet(response.id(), response.name(), response.status());
-    }
-
-    private String resolveMessage(RestClientResponseException exception) {
-        if (exception.getResponseBodyAsString() == null || exception.getResponseBodyAsString().isBlank()) {
-            return exception.getMessage();
-        }
-
-        return exception.getResponseBodyAsString();
     }
 
     private record PetStorePetRequest(Long id, String name, String status) { }

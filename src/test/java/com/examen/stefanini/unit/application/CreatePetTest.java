@@ -2,7 +2,6 @@ package com.examen.stefanini.unit.application;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.examen.stefanini.context.pet.application.CreatePet;
@@ -22,7 +21,8 @@ class CreatePetTest {
     @Test
     void shouldCreatePetResponse() throws GeneralException {
         CreatePetRequest request = new CreatePetRequest(20L, "available", "Luna");
-        when(petRepository.save(any(Pet.class))).thenReturn(new Pet(20L, "Luna", "available"));
+        when(petRepository.save(20L, "Luna", "available"))
+                .thenReturn(new Pet(20L, "Luna", "available"));
 
         CreatePetResponse response = createPet.create(request);
 

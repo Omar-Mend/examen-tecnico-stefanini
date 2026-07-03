@@ -1,6 +1,5 @@
 package com.examen.stefanini.context.pet.application;
 
-import com.examen.stefanini.context.pet.domain.entities.Pet;
 import com.examen.stefanini.context.pet.domain.exceptions.GeneralException;
 import com.examen.stefanini.context.pet.domain.repositories.PetRepository;
 import com.examen.stefanini.context.pet.infraestructure.handler.request.CreatePetRequest;
@@ -19,8 +18,9 @@ public class CreatePet {
     }
 
     public CreatePetResponse create(CreatePetRequest request) throws GeneralException {
-        Pet pet = petRepository.save(new Pet(request.id(), request.name(), request.status()));
+        var pet = petRepository.save(request.id(), request.name(), request.status());
         System.out.println("Pet created in external API: " + pet);
+
         return new CreatePetResponse(
                 UUID.randomUUID().toString(),
                 OffsetDateTime.now(),

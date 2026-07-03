@@ -7,5 +7,5 @@ public interface PetRepository {
 
     Pet findById(Long petId) throws GeneralException;
 
-    Pet save(Pet pet) throws GeneralException;
+    Pet save(Long petId, String name, String status) throws GeneralException;
 }

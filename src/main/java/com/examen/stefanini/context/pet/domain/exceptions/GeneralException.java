@@ -1,28 +1,20 @@
 package com.examen.stefanini.context.pet.domain.exceptions;
 
+import org.springframework.web.client.RestClientResponseException;
+
 public class GeneralException extends Exception {
+
+    private static final String DEFAULT_MESSAGE = "Unexpected error";
 
     private final int httpStatusCode;
 
-    public GeneralException() {
-        this(500, "Unexpected error");
-    }
-
-    public GeneralException(Exception e) {
-        this(500, validateMessage(e), e);
-    }
-
-    public GeneralException(int httpStatusCode) {
-        this(httpStatusCode, "Unexpected error");
-    }
-
-    public GeneralException(int httpStatusCode, String message) {
-        super(message);
+    public GeneralException(int httpStatusCode, Exception e) {
+        super(resolveMessage(e), e);
         this.httpStatusCode = httpStatusCode;
     }
 
-    public GeneralException(int httpStatusCode, String message, Throwable cause) {
-        super(message, cause);
+    public GeneralException(int httpStatusCode, String message) {
+        super(resolveMessage(message));
         this.httpStatusCode = httpStatusCode;
     }
 
@@ -34,11 +26,20 @@ public class GeneralException extends Exception {
         return httpStatusCode;
     }
 
-    private static String validateMessage(Exception exception) {
-        if (exception.getMessage() == null || exception.getMessage().isBlank()) {
-            return "Unexpected error";
+    private static String resolveMessage(Exception exception) {
+        if (exception instanceof RestClientResponseException restClientResponseException
+                && !restClientResponseException.getResponseBodyAsString().isBlank()) {
+            return restClientResponseException.getResponseBodyAsString();
         }
 
-        return exception.getMessage();
+        return resolveMessage(exception.getMessage());
+    }
+
+    private static String resolveMessage(String message) {
+        if (message == null || message.isBlank()) {
+            return DEFAULT_MESSAGE;
+        }
+
+        return message;
     }
 }
