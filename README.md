@@ -1,6 +1,6 @@
 # Examen Tecnico Stefanini
 
-API REST desarrollada con Spring Boot para consultar y crear mascotas usando la API externa de Swagger Petstore.
+API REST desarrollada con Spring Boot para la consulta y creación de mascotas usando la API externa de Swagger Petstore.
 
 ## Tecnologias
 
