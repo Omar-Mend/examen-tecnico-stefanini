@@ -150,4 +150,4 @@ El proyecto incluye:
 
 ## Evidencias
 
-Si se requiere alguna evidencia de la ejecucion o pruebas del proyecto, se puede consultar la carpeta [evidencias](C:/Users/omarm/Documents/examen-tecnico-stefanini/evidencias).
+Si se requiere alguna evidencia de la ejecucion o pruebas del proyecto, se puede consultar la carpeta [evidencias](./evidencias).
